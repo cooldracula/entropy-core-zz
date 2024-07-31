@@ -15,7 +15,9 @@ jobs:
         run: |
           sudo sed -i "/#\$nrconf{restart} = 'i';/s/.*/\$nrconf{restart} = 'a';/" /etc/needrestart/needrestart.conf
           sudo apt-get update
-          sudo apt install -y libssl-dev clang libclang-dev tor && sudo systemctl start tor && sudo systemctl enable tor
+          sudo apt install -y libssl-dev clang libclang-dev tor protobuf-compiler
+          sudo systemctl start tor
+          sudo systemctl enable tor
       - name: Add rust components
         run: |
           rustup target add wasm32-unknown-unknown
