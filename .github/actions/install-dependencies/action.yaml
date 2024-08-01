@@ -10,9 +10,12 @@ runs:
         sudo apt install -y libssl-dev clang libclang-dev tor protobuf-compiler
         sudo systemctl start tor
         sudo systemctl enable tor
+      shell: bash
     - name: Add rust components
       run: |
         rustup target add wasm32-unknown-unknown
         rustup component add rust-src
+      shell: bash
     - name: Install wasm-pack
       run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+      shell: bash
