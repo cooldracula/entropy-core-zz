@@ -1,0 +1,18 @@
+name: 'Install Dependencies'
+description: 'Install common dependncies and rust components used in our runners across jobs'
+runs:
+  using: "composite"
+  steps:
+    - name: Install dependencies
+      run: |
+        sudo sed -i "/#\$nrconf{restart} = 'i';/s/.*/\$nrconf{restart} = 'a';/" /etc/needrestart/needrestart.conf
+        sudo apt-get update
+        sudo apt install -y libssl-dev clang libclang-dev tor protobuf-compiler
+        sudo systemctl start tor
+        sudo systemctl enable tor
+    - name: Add rust components
+      run: |
+        rustup target add wasm32-unknown-unknown
+        rustup component add rust-src
+    - name: Install wasm-pack
+      run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh

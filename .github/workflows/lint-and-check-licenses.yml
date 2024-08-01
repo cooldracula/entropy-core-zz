@@ -11,19 +11,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
-      - name: Install dependencies
-        run: |
-          sudo sed -i "/#\$nrconf{restart} = 'i';/s/.*/\$nrconf{restart} = 'a';/" /etc/needrestart/needrestart.conf
-          sudo apt-get update
-          sudo apt install -y libssl-dev clang libclang-dev tor protobuf-compiler
-          sudo systemctl start tor
-          sudo systemctl enable tor
-      - name: Add rust components
-        run: |
-          rustup target add wasm32-unknown-unknown
-          rustup component add rust-src
-      - name: Install wasm-pack
-        run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+      - uses: ./.github/actions/install-dependencies/
       - name: Format and lint
         run: |
           curl -LsSf https://github.com/tamasfe/taplo/releases/download/0.8.0/taplo-full-linux-x86_64.gz | gunzip -N -d - > ${CARGO_HOME:-~/.cargo}/bin/taplo && chmod +x ${CARGO_HOME:-~/.cargo}/bin/taplo
