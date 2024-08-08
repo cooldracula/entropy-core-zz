@@ -1,13 +1,16 @@
+---
 name: "Check chainspecs"
-on:
-  push:
+on: ["push"]
+
 jobs:
-  test:
-    runs-on: ubuntu-22.04
+  check-chainspecs:
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: ./.github/actions/install-dependencies/
-      - name: check chainspecs
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Install dependencies
+        uses: ./.github/actions/install-dependencies/
+      - name: Check chainspecs
         run: |
           cargo run -p entropy -- build-spec --raw --chain dev > chainspec-dev-raw.json
           cargo run -p entropy -- build-spec --raw --chain integration-tests > chainspec-integration-raw.json

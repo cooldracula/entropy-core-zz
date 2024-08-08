@@ -1,3 +1,4 @@
+---
 name: "Build and run node-test"
 on:
   push:
@@ -6,11 +7,13 @@ on:
       - "crates/**"
       - "pallets/*"
       - "runtime/*"
+
 jobs:
-  lint:
-    runs-on: ubuntu-22.04
+  node-test:
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
       - name: Increase swap
         run: |
           sudo swapoff -a
@@ -29,8 +32,7 @@ jobs:
           yarn
           cd ../../..
       - name: Run cargo test
-        # in our circle_ci we have no_output_timeout, but equivalent does not exist in gh action i think?
-        # see: https://github.com/orgs/community/discussions/125394
+        timeout-minutes: 45
         run: |
           pushd node
           cargo build --all-targets --release -j $(nproc)
