@@ -1,3 +1,4 @@
+---
 name: 'Install Dependencies'
 description: 'Install common dependncies and rust components used in our runners across jobs'
 runs:
@@ -7,9 +8,7 @@ runs:
       run: |
         sudo sed -i "/#\$nrconf{restart} = 'i';/s/.*/\$nrconf{restart} = 'a';/" /etc/needrestart/needrestart.conf
         sudo apt-get update
-        sudo apt install -y libssl-dev clang libclang-dev tor protobuf-compiler
-        sudo systemctl start tor
-        sudo systemctl enable tor
+        sudo apt install -y libssl-dev clang libclang-dev protobuf-compiler
       shell: bash
     - name: Add rust components
       run: |
